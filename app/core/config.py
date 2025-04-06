@@ -15,8 +15,7 @@ class Settings(BaseSettings):
     # CORS settings
     CORS_ORIGINS: List[str] = ["*"]
     
-    # Database settings
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgres://neondb_owner:npg_nRh1KyAo7jcW@ep-summer-rice-a59w093p-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require")
+    # Database settings are now in db_config.py
     
     # API Keys
     GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")

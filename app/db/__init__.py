@@ -3,15 +3,15 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from app.core.config import settings
+from app.core.db_config import db_config
 
 # Create SQLAlchemy engine with PostgreSQL-specific configuration
 engine = create_engine(
-    settings.DATABASE_URL,
+    db_config.DATABASE_URL,
     pool_pre_ping=True,  # Verify connections before using them
-    pool_size=10,        # Connection pool size
-    max_overflow=20,     # Maximum overflow connections
-    pool_recycle=3600    # Recycle connections after 1 hour
+    pool_size=db_config.POOL_SIZE,        # Connection pool size
+    max_overflow=db_config.MAX_OVERFLOW,     # Maximum overflow connections
+    pool_recycle=db_config.POOL_RECYCLE    # Recycle connections after 1 hour
 )
 
 # Create session factory
