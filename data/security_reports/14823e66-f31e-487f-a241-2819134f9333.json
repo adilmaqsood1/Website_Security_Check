@@ -1,0 +1,106 @@
+{
+  "vulnerabilities": [
+    {
+      "name": "Sensitive Information in HTML Comment",
+      "description": "HTML comment contains potentially sensitive information",
+      "severity": "medium",
+      "location": "https://www.meezanbank.com/",
+      "evidence": "<li><a href=\"https://digitalservices.meezanbank.com/ebiz_user_reg/\" class=\"hidden-sm\" target=\"_blank...",
+      "remediation": "Remove sensitive information from HTML comments",
+      "cwe_id": "CWE-200",
+      "cvss_score": null
+    },
+    {
+      "name": "Sensitive Information in HTML Comment",
+      "description": "HTML comment contains potentially sensitive information",
+      "severity": "medium",
+      "location": "https://www.meezanbank.com/",
+      "evidence": "\t<li><a href=\"https://digitalservices.meezanbank.com/ebiz_user_reg/\" class=\"visible-sm\" target=\"_bla...",
+      "remediation": "Remove sensitive information from HTML comments",
+      "cwe_id": "CWE-200",
+      "cvss_score": null
+    },
+    {
+      "name": "Sensitive Information in HTML Comment",
+      "description": "HTML comment contains potentially sensitive information",
+      "severity": "medium",
+      "location": "https://www.meezanbank.com/",
+      "evidence": " <li><a href=\"https://digitalservices.meezanbank.com/ebiz_user_reg/\" target=\"_blank\">Foreign Exchang...",
+      "remediation": "Remove sensitive information from HTML comments",
+      "cwe_id": "CWE-200",
+      "cvss_score": null
+    },
+    {
+      "name": "Potential XSS Vector",
+      "description": "Form input 's' could be a vector for XSS attacks",
+      "severity": "low",
+      "location": "https://www.meezanbank.com/#",
+      "evidence": "<input class=\"search-field\" id=\"s_mobile\" maxlength=\"30\" name=\"s\" placeholder=\"Search\" type=\"text\"/>",
+      "remediation": "Implement input validation and output encoding",
+      "cwe_id": "CWE-79",
+      "cvss_score": null
+    },
+    {
+      "name": "Potential XSS Vector",
+      "description": "Form input 's' could be a vector for XSS attacks",
+      "severity": "low",
+      "location": "https://www.meezanbank.com/#",
+      "evidence": "<input class=\"search-field\" id=\"s\" maxlength=\"30\" name=\"s\" placeholder=\"Search\" type=\"text\"/>",
+      "remediation": "Implement input validation and output encoding",
+      "cwe_id": "CWE-79",
+      "cvss_score": null
+    },
+    {
+      "name": "Potential XSS Vector",
+      "description": "Form input 's' could be a vector for XSS attacks",
+      "severity": "low",
+      "location": "https://www.meezanbank.com/#",
+      "evidence": "<input class=\"mobile-search-field\" maxlength=\"30\" name=\"s\" placeholder=\"Search\" type=\"text\"/>",
+      "remediation": "Implement input validation and output encoding",
+      "cwe_id": "CWE-79",
+      "cvss_score": null
+    },
+    {
+      "name": "Potential Information Disclosure",
+      "description": "Sensitive file or directory is accessible: /robots.txt",
+      "severity": "medium",
+      "location": "https://www.meezanbank.com/robots.txt",
+      "evidence": "File accessible with status code 200",
+      "remediation": "Restrict access to sensitive files and directories",
+      "cwe_id": "CWE-200",
+      "cvss_score": null
+    },
+    {
+      "name": "Potential Information Disclosure",
+      "description": "Sensitive file or directory is accessible: /sitemap.xml",
+      "severity": "medium",
+      "location": "https://www.meezanbank.com/sitemap.xml",
+      "evidence": "File accessible with status code 200",
+      "remediation": "Restrict access to sensitive files and directories",
+      "cwe_id": "CWE-200",
+      "cvss_score": null
+    },
+    {
+      "name": "Version Information Disclosure",
+      "description": "The server is disclosing version information through HTTP headers",
+      "severity": "low",
+      "location": "https://www.meezanbank.com/",
+      "evidence": "Server: cloudflare",
+      "remediation": "Configure the server to not disclose version information",
+      "cwe_id": "CWE-200",
+      "cvss_score": null
+    }
+  ],
+  "summary": {
+    "total_vulnerabilities": 9,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 5,
+      "low": 4,
+      "info": 0
+    },
+    "scan_duration": 5.986398,
+    "pages_scanned": 1
+  }
+}

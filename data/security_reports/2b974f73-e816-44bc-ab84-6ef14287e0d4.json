@@ -1,0 +1,96 @@
+{
+  "vulnerabilities": [
+    {
+      "name": "Sensitive Information in HTML Comment",
+      "description": "HTML comment contains potentially sensitive information",
+      "severity": "medium",
+      "location": "https://www.bankalhabib.com/",
+      "evidence": "<a class=\"btn btn-secondary btn-lg px-3 px-md-5 btn-border font12 btn-responsive\" href=\"https://netb...",
+      "remediation": "Remove sensitive information from HTML comments",
+      "cwe_id": "CWE-200",
+      "cvss_score": null
+    },
+    {
+      "name": "Sensitive Information in HTML Comment",
+      "description": "HTML comment contains potentially sensitive information",
+      "severity": "medium",
+      "location": "https://www.bankalhabib.com/",
+      "evidence": "<p class=\"alert alert-warning mb-0\">Our digital banking mobile app, AL Habib Mobile will also be ava...",
+      "remediation": "Remove sensitive information from HTML comments",
+      "cwe_id": "CWE-200",
+      "cvss_score": null
+    },
+    {
+      "name": "Sensitive Information in HTML Comment",
+      "description": "HTML comment contains potentially sensitive information",
+      "severity": "medium",
+      "location": "https://www.bankalhabib.com/",
+      "evidence": " <h5 style=\"text-transform:none;\" class=\"modal-title green\"> Note for iBanking users</h5> ",
+      "remediation": "Remove sensitive information from HTML comments",
+      "cwe_id": "CWE-200",
+      "cvss_score": null
+    },
+    {
+      "name": "Sensitive Information in HTML Comment",
+      "description": "HTML comment contains potentially sensitive information",
+      "severity": "medium",
+      "location": "https://www.bankalhabib.com/",
+      "evidence": "<span>Note for iBanking Users</span> ",
+      "remediation": "Remove sensitive information from HTML comments",
+      "cwe_id": "CWE-200",
+      "cvss_score": null
+    },
+    {
+      "name": "Sensitive Information in HTML Comment",
+      "description": "HTML comment contains potentially sensitive information",
+      "severity": "medium",
+      "location": "https://www.bankalhabib.com/",
+      "evidence": "<span>Note for iBanking Users</span> ",
+      "remediation": "Remove sensitive information from HTML comments",
+      "cwe_id": "CWE-200",
+      "cvss_score": null
+    },
+    {
+      "name": "Potential XSS Vector",
+      "description": "Form input 'email' could be a vector for XSS attacks",
+      "severity": "low",
+      "location": "https://www.bankalhabib.com/#",
+      "evidence": "<input aria-describedby=\"basic-addon2\" aria-label=\"Recipient's email\" class=\"form-control\" data-fiel...",
+      "remediation": "Implement input validation and output encoding",
+      "cwe_id": "CWE-79",
+      "cvss_score": null
+    },
+    {
+      "name": "Missing Input Validation",
+      "description": "Form input '_token' lacks client-side validation attributes",
+      "severity": "info",
+      "location": "https://www.bankalhabib.com/#",
+      "evidence": "<input name=\"_token\" type=\"hidden\" value=\"TfFVUNzRLWCWvdLkernDYlYgzbsL1KWq3hQY2Aiu\"/>",
+      "remediation": "Add pattern and maxlength attributes for client-side validation",
+      "cwe_id": "CWE-20",
+      "cvss_score": null
+    },
+    {
+      "name": "Missing Input Validation",
+      "description": "Form input 'email' lacks client-side validation attributes",
+      "severity": "info",
+      "location": "https://www.bankalhabib.com/#",
+      "evidence": "<input aria-describedby=\"basic-addon2\" aria-label=\"Recipient's email\" class=\"form-control\" data-fiel...",
+      "remediation": "Add pattern and maxlength attributes for client-side validation",
+      "cwe_id": "CWE-20",
+      "cvss_score": null
+    }
+  ],
+  "summary": {
+    "total_vulnerabilities": 8,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 5,
+      "low": 1,
+      "info": 2
+    },
+    "scan_duration": 3.982148,
+    "pages_scanned": 1
+  }
+}

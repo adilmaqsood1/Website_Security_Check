@@ -1,0 +1,86 @@
+{
+  "vulnerabilities": [
+    {
+      "name": "Sensitive Information in HTML Comment",
+      "description": "HTML comment contains potentially sensitive information",
+      "severity": "medium",
+      "location": "https://ilmauniversity.edu.pk/",
+      "evidence": " Section: Funfacts \n    <section class=\"layer-overlay overlay-theme-colored2-9 bg-no-repeat bg-pos-c...",
+      "remediation": "Remove sensitive information from HTML comments",
+      "cwe_id": "CWE-200",
+      "cvss_score": null
+    },
+    {
+      "name": "Missing Strict-Transport-Security Header",
+      "description": "Missing HSTS header",
+      "severity": "medium",
+      "location": "https://ilmauniversity.edu.pk/",
+      "evidence": "Header not present in response",
+      "remediation": "Add the Strict-Transport-Security header with appropriate values",
+      "cwe_id": "CWE-319",
+      "cvss_score": null
+    },
+    {
+      "name": "Missing Content-Security-Policy Header",
+      "description": "Missing Content Security Policy",
+      "severity": "medium",
+      "location": "https://ilmauniversity.edu.pk/",
+      "evidence": "Header not present in response",
+      "remediation": "Implement a Content Security Policy to prevent XSS attacks",
+      "cwe_id": "CWE-1021",
+      "cvss_score": null
+    },
+    {
+      "name": "Missing X-Content-Type-Options Header",
+      "description": "Missing X-Content-Type-Options header",
+      "severity": "low",
+      "location": "https://ilmauniversity.edu.pk/",
+      "evidence": "Header not present in response",
+      "remediation": "Add the X-Content-Type-Options header with 'nosniff' value",
+      "cwe_id": "CWE-693",
+      "cvss_score": null
+    },
+    {
+      "name": "Missing X-Frame-Options Header",
+      "description": "Missing X-Frame-Options header",
+      "severity": "low",
+      "location": "https://ilmauniversity.edu.pk/",
+      "evidence": "Header not present in response",
+      "remediation": "Add the X-Frame-Options header to prevent clickjacking",
+      "cwe_id": "CWE-1021",
+      "cvss_score": null
+    },
+    {
+      "name": "Missing X-XSS-Protection Header",
+      "description": "Missing X-XSS-Protection header",
+      "severity": "low",
+      "location": "https://ilmauniversity.edu.pk/",
+      "evidence": "Header not present in response",
+      "remediation": "Add the X-XSS-Protection header to enable browser XSS protection",
+      "cwe_id": "CWE-79",
+      "cvss_score": null
+    },
+    {
+      "name": "Version Information Disclosure",
+      "description": "The server is disclosing version information through HTTP headers",
+      "severity": "low",
+      "location": "https://ilmauniversity.edu.pk/",
+      "evidence": "Server: Apache",
+      "remediation": "Configure the server to not disclose version information",
+      "cwe_id": "CWE-200",
+      "cvss_score": null
+    }
+  ],
+  "summary": {
+    "total_vulnerabilities": 7,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 3,
+      "low": 4,
+      "info": 0
+    },
+    "scan_duration": 6.007425,
+    "pages_scanned": 1
+  }
+}

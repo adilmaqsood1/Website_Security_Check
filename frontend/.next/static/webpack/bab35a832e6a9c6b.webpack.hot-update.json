@@ -1,0 +1,1 @@
+{"c":["pages/scans/[id]","webpack"],"r":["pages/index"],"m":["./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?absolutePagePath=E%3A%5Cfast%5CFastAPI_Projects%5Cwebsite_security_check%5Cfrontend%5Csrc%5Cpages%5Cindex.tsx&page=%2F!","./src/pages/index.tsx","__barrel_optimize__?names=FaSearch,FaShieldAlt!=!./node_modules/react-icons/fa/index.esm.js"]}

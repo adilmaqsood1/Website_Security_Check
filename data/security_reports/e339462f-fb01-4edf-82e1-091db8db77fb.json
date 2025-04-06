@@ -1,0 +1,56 @@
+{
+  "vulnerabilities": [
+    {
+      "name": "Missing Content-Security-Policy Header",
+      "description": "Missing Content Security Policy",
+      "severity": "medium",
+      "location": "https://www.gowakeel.com/",
+      "evidence": "Header not present in response",
+      "remediation": "Implement a Content Security Policy to prevent XSS attacks",
+      "cwe_id": "CWE-1021",
+      "cvss_score": null
+    },
+    {
+      "name": "Missing X-XSS-Protection Header",
+      "description": "Missing X-XSS-Protection header",
+      "severity": "low",
+      "location": "https://www.gowakeel.com/",
+      "evidence": "Header not present in response",
+      "remediation": "Add the X-XSS-Protection header to enable browser XSS protection",
+      "cwe_id": "CWE-79",
+      "cvss_score": null
+    },
+    {
+      "name": "Potential Information Disclosure",
+      "description": "Sensitive file or directory is accessible: /sitemap.xml",
+      "severity": "medium",
+      "location": "https://www.gowakeel.com/sitemap.xml",
+      "evidence": "File accessible with status code 200",
+      "remediation": "Restrict access to sensitive files and directories",
+      "cwe_id": "CWE-200",
+      "cvss_score": null
+    },
+    {
+      "name": "Version Information Disclosure",
+      "description": "The server is disclosing version information through HTTP headers",
+      "severity": "low",
+      "location": "https://www.gowakeel.com/",
+      "evidence": "Server: Vercel",
+      "remediation": "Configure the server to not disclose version information",
+      "cwe_id": "CWE-200",
+      "cvss_score": null
+    }
+  ],
+  "summary": {
+    "total_vulnerabilities": 4,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 2,
+      "low": 2,
+      "info": 0
+    },
+    "scan_duration": 8.986515,
+    "pages_scanned": 1
+  }
+}
