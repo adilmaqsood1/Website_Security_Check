@@ -3,9 +3,9 @@ import os
 
 class DatabaseConfig:
     """Database configuration settings"""
-    # Main connection URL
+    # Main connection URL - Railway will provide DATABASE_URL environment variable
     DATABASE_URL: str = os.getenv("DATABASE_URL", "postgres://neondb_owner:npg_nRh1KyAo7jcW@ep-summer-rice-a59w093p-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require")
-    DATABASE_URL_UNPOOLED: str = os.getenv("DATABASE_URL_UNPOOLED", "postgresql://neondb_owner:npg_nRh1KyAo7jcW@ep-summer-rice-a59w093p.us-east-2.aws.neon.tech/neondb?sslmode=require")
+    DATABASE_URL_UNPOOLED: str = os.getenv("DATABASE_URL_UNPOOLED", os.getenv("DATABASE_URL", "postgresql://neondb_owner:npg_nRh1KyAo7jcW@ep-summer-rice-a59w093p.us-east-2.aws.neon.tech/neondb?sslmode=require"))
     
     # Connection pool settings
     POOL_SIZE: int = int(os.getenv("POOL_SIZE", "5"))

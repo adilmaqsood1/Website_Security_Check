@@ -96,9 +96,10 @@ async def run_security_scan(scan_id: str, url: Union[str, List[str]], scan_type:
         
         db.commit()
         
-        # Generate report file
-        os.makedirs("data/security_reports", exist_ok=True)
-        report_path = f"data/security_reports/{scan_id}.json"
+        # Generate report file - ensure directory exists and use settings for path
+        reports_dir = settings.SECURITY_REPORTS_DIR
+        os.makedirs(reports_dir, exist_ok=True)
+        report_path = f"{reports_dir}/{scan_id}.json"
         
         with open(report_path, "w", encoding="utf-8") as f:
             json.dump(results, f, indent=2)
