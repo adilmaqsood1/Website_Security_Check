@@ -39,7 +39,11 @@ async def root():
     
 if __name__ == "__main__":
     import uvicorn
+    import sys
+    print("Python version:", sys.version)
+    print("Starting FastAPI application...")
     # Get port from environment variable for Railway deployment
     port = int(os.getenv("PORT", 8000))
-    uvicorn.run(app, host="0.0.0.0", port=port)
+    print(f"Running on port: {port}")
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)
     

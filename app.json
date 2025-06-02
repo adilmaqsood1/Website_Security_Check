@@ -1,0 +1,11 @@
+{
+  "name": "website-security-check",
+  "description": "A FastAPI application for website security scanning",
+  "repository": "https://github.com/user/website_security_check",
+  "keywords": ["python", "fastapi", "security"],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ]
+}

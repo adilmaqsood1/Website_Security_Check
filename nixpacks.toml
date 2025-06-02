@@ -1,0 +1,8 @@
+[phases.setup]
+aptPkgs = ["python3-dev", "build-essential"]
+
+[phases.install]
+cmds = ["pip install -r requirements.txt", "pip install -e ."]
+
+[start]
+cmd = "python main.py"
