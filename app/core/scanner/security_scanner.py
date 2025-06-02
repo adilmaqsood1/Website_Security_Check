@@ -731,9 +731,11 @@ class SecurityScanner:
                                 # Fall back to default remediation if generation fails
                                 print(f"Error generating remediation: {str(e)}")
                         
+                        # Extract the pattern name outside the f-string to avoid backslash issues
+                        pattern_name = pattern.split(r'[_\\-]?')[0]
                         self.add_vulnerability(
                             name="Sensitive Information in JavaScript",
-                            description=f"JavaScript code contains potentially sensitive information related to '{pattern.split(r'[_\\-]?')[0]}'",
+                            description=f"JavaScript code contains potentially sensitive information related to '{pattern_name}'",
                             severity=VulnerabilitySeverity.HIGH,
                             location=url,
                             evidence=match.group(0)[:100] + "..." if len(match.group(0)) > 100 else match.group(0),
