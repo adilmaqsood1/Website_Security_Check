@@ -51,7 +51,7 @@ class SecurityScan(SecurityScanBase):
     report_path: Optional[str] = Field(None, description="Path to the generated report file")
     
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class SecurityScanUpdate(BaseModel):
     """Schema for updating a security scan"""
