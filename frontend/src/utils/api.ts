@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 // Create an axios instance with custom configuration
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api',
+  baseURL: 'https://websitesecuritycheck-production.up.railway.app/api',
   timeout: 30000, // 30 seconds timeout
   headers: {
     'Content-Type': 'application/json',
