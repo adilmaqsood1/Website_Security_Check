@@ -7,7 +7,7 @@ from app.core.db_config import db_config
 
 # Create SQLAlchemy engine with PostgreSQL-specific configuration
 engine = create_engine(
-    db_config.DATABASE_URL,
+    db_config.DATABASE_URL.replace('postgres:', 'postgresql:') if db_config.DATABASE_URL.startswith('postgres:') else db_config.DATABASE_URL,
     pool_pre_ping=True,  # Verify connections before using them
     pool_size=db_config.POOL_SIZE,        # Connection pool size
     max_overflow=db_config.MAX_OVERFLOW,     # Maximum overflow connections

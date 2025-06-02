@@ -10,6 +10,7 @@ httpx==0.25.1
 sqlalchemy==2.0.23
 alembic==1.12.1
 psycopg2-binary==2.9.9  # PostgreSQL driver
+psycopg2==2.9.9  # Alternative PostgreSQL driver
 
 # Web scraping and processing
 beautifulsoup4==4.12.2

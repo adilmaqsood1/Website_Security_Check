@@ -4,7 +4,7 @@ import os
 class DatabaseConfig:
     """Database configuration settings"""
     # Main connection URL - Railway will provide DATABASE_URL environment variable
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgres://neondb_owner:npg_nRh1KyAo7jcW@ep-summer-rice-a59w093p-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require")
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "postgresql://neondb_owner:npg_nRh1KyAo7jcW@ep-summer-rice-a59w093p-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require")
     DATABASE_URL_UNPOOLED: str = os.getenv("DATABASE_URL_UNPOOLED", os.getenv("DATABASE_URL", "postgresql://neondb_owner:npg_nRh1KyAo7jcW@ep-summer-rice-a59w093p.us-east-2.aws.neon.tech/neondb?sslmode=require"))
     
     # Connection pool settings
@@ -20,14 +20,14 @@ class DatabaseConfig:
     PGPASSWORD: str = os.getenv("PGPASSWORD", "npg_nRh1KyAo7jcW")
     
     # Vercel Postgres parameters
-    POSTGRES_URL: str = os.getenv("POSTGRES_URL", "postgres://neondb_owner:npg_nRh1KyAo7jcW@ep-summer-rice-a59w093p-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require")
-    POSTGRES_URL_NON_POOLING: str = os.getenv("POSTGRES_URL_NON_POOLING", "postgres://neondb_owner:npg_nRh1KyAo7jcW@ep-summer-rice-a59w093p.us-east-2.aws.neon.tech/neondb?sslmode=require")
+    POSTGRES_URL: str = os.getenv("POSTGRES_URL", "postgresql://neondb_owner:npg_nRh1KyAo7jcW@ep-summer-rice-a59w093p-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require")
+    POSTGRES_URL_NON_POOLING: str = os.getenv("POSTGRES_URL_NON_POOLING", "postgresql://neondb_owner:npg_nRh1KyAo7jcW@ep-summer-rice-a59w093p.us-east-2.aws.neon.tech/neondb?sslmode=require")
     POSTGRES_USER: str = os.getenv("POSTGRES_USER", "neondb_owner")
     POSTGRES_HOST: str = os.getenv("POSTGRES_HOST", "ep-summer-rice-a59w093p-pooler.us-east-2.aws.neon.tech")
     POSTGRES_PASSWORD: str = os.getenv("POSTGRES_PASSWORD", "npg_nRh1KyAo7jcW")
     POSTGRES_DATABASE: str = os.getenv("POSTGRES_DATABASE", "neondb")
-    POSTGRES_URL_NO_SSL: str = os.getenv("POSTGRES_URL_NO_SSL", "postgres://neondb_owner:npg_nRh1KyAo7jcW@ep-summer-rice-a59w093p-pooler.us-east-2.aws.neon.tech/neondb")
-    POSTGRES_PRISMA_URL: str = os.getenv("POSTGRES_PRISMA_URL", "postgres://neondb_owner:npg_nRh1KyAo7jcW@ep-summer-rice-a59w093p-pooler.us-east-2.aws.neon.tech/neondb?connect_timeout=15&sslmode=require")
+    POSTGRES_URL_NO_SSL: str = os.getenv("POSTGRES_URL_NO_SSL", "postgresql://neondb_owner:npg_nRh1KyAo7jcW@ep-summer-rice-a59w093p-pooler.us-east-2.aws.neon.tech/neondb")
+    POSTGRES_PRISMA_URL: str = os.getenv("POSTGRES_PRISMA_URL", "postgresql://neondb_owner:npg_nRh1KyAo7jcW@ep-summer-rice-a59w093p-pooler.us-east-2.aws.neon.tech/neondb?connect_timeout=15&sslmode=require")
 
 # Create a singleton instance
 db_config = DatabaseConfig()

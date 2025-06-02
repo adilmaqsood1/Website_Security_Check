@@ -8,6 +8,19 @@ import sys
 # Add the current directory to the path so we can import modules
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
+# Fix for Railway: Convert any postgres:// URLs to postgresql://
+database_url = os.getenv('DATABASE_URL')
+if database_url and database_url.startswith('postgres://'):
+    os.environ['DATABASE_URL'] = database_url.replace('postgres://', 'postgresql://')
+    print(f"Converted DATABASE_URL from postgres:// to postgresql://")
+
+# Also check other potential database URLs
+for env_var in ['POSTGRES_URL', 'POSTGRES_URL_NON_POOLING', 'POSTGRES_URL_NO_SSL', 'POSTGRES_PRISMA_URL']:
+    url = os.getenv(env_var)
+    if url and url.startswith('postgres://'):
+        os.environ[env_var] = url.replace('postgres://', 'postgresql://')
+        print(f"Converted {env_var} from postgres:// to postgresql://")
+
 # Import routes and settings
 from app.api.security_routes import security_router
 from app.core.config import settings
