@@ -1,4 +1,33 @@
-node_modules
+# Node.js dependencies and build artifacts
+node_modules/
+.next/
+data/
+.vercel/
+.app.db/
+
+# Large files and binary data
+*.zip
+*.gz
+*.tar
+*.rar
+*.7z
+*.pdf
+*.mp4
+*.mov
+*.avi
+*.psd
+*.ai
+*.sketch
+*.fig
+
+# Frontend build output
+frontend/build/
+frontend/dist/
+frontend/.next/
+frontend/out/
+frontend/node_modules/
+frontend/.cache/
+
 # Python temp files
 __pycache__/
 *.py[cod]
