@@ -8,6 +8,27 @@ import api from '@/utils/api';
 // Register ChartJS components
 ChartJS.register(ArcElement, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
+// Define the Scan interface
+interface Scan {
+  id: string;
+  url: string;
+  scan_type: string;
+  status: string;
+  created_at: string;
+  start_time: string | null;
+  end_time: string | null;
+  summary: {
+    total_vulnerabilities: number;
+    severity_counts: {
+      critical: number;
+      high: number;
+      medium: number;
+      low: number;
+      info: number;
+    };
+  } | null;
+}
+
 interface ScanSummary {
   total_scans: number;
   completed_scans: number;
@@ -57,23 +78,23 @@ const Dashboard: React.FC = () => {
       const scans = response.data;
       const summary: ScanSummary = {
         total_scans: scans.length,
-        completed_scans: scans.filter(s => s.status === 'completed').length,
-        in_progress_scans: scans.filter(s => s.status === 'in_progress' || s.status === 'pending').length,
-        failed_scans: scans.filter(s => s.status === 'failed' || s.status === 'cancelled').length,
-        total_vulnerabilities: scans.reduce((total, scan) => {
+        completed_scans: scans.filter((s: Scan) => s.status === 'completed').length,
+        in_progress_scans: scans.filter((s: Scan) => s.status === 'in_progress' || s.status === 'pending').length,
+        failed_scans: scans.filter((s: Scan) => s.status === 'failed' || s.status === 'cancelled').length,
+        total_vulnerabilities: scans.reduce((total: number, scan: Scan) => {
           return total + (scan.summary?.total_vulnerabilities || 0);
         }, 0),
         severity_counts: {
-          critical: scans.reduce((total, scan) => total + (scan.summary?.severity_counts?.critical || 0), 0),
-          high: scans.reduce((total, scan) => total + (scan.summary?.severity_counts?.high || 0), 0),
-          medium: scans.reduce((total, scan) => total + (scan.summary?.severity_counts?.medium || 0), 0),
-          low: scans.reduce((total, scan) => total + (scan.summary?.severity_counts?.low || 0), 0),
-          info: scans.reduce((total, scan) => total + (scan.summary?.severity_counts?.info || 0), 0),
+          critical: scans.reduce((total: number, scan: Scan) => total + (scan.summary?.severity_counts?.critical || 0), 0),
+          high: scans.reduce((total: number, scan: Scan) => total + (scan.summary?.severity_counts?.high || 0), 0),
+          medium: scans.reduce((total: number, scan: Scan) => total + (scan.summary?.severity_counts?.medium || 0), 0),
+          low: scans.reduce((total: number, scan: Scan) => total + (scan.summary?.severity_counts?.low || 0), 0),
+          info: scans.reduce((total: number, scan: Scan) => total + (scan.summary?.severity_counts?.info || 0), 0),
         },
         recent_scans: scans
-          .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+          .sort((a: Scan, b: Scan) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
           .slice(0, 5)
-          .map(scan => ({
+          .map((scan: Scan) => ({
             id: scan.id,
             url: scan.url,
             scan_type: scan.scan_type,
@@ -217,7 +238,7 @@ const Dashboard: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {summary.recent_scans.map((scan) => (
+                {summary.recent_scans.map((scan: { id: string; url: string; scan_type: string; status: string; created_at: string; vulnerabilities_count: number }) => (
                   <tr key={scan.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       {scan.url.length > 40 ? `${scan.url.substring(0, 40)}...` : scan.url}

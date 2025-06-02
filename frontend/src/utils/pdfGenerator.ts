@@ -1,6 +1,19 @@
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
+// Define a type for our jsPDF instance with the methods we use
+type ExtendedJsPDF = jsPDF & {
+  internal: {
+    getFontSize: () => number;
+    scaleFactor: number;
+    pageSize: {
+      getWidth: () => number;
+      getHeight: () => number;
+    };
+  };
+  getStringUnitWidth: (text: string) => number;
+}
+
 interface SeverityCounts {
   critical: number;
   high: number;
@@ -50,7 +63,7 @@ interface ScanDetails {
  */
 export const generatePDFReport = (scan: ScanDetails, vulnerabilities: Vulnerability[] = []): Blob => {
   // Initialize PDF document
-  const doc = new jsPDF();
+  const doc = new jsPDF() as ExtendedJsPDF;
   const pageWidth = doc.internal.pageSize.getWidth();
   
   // Add report title
@@ -221,21 +234,7 @@ export const generatePDFReport = (scan: ScanDetails, vulnerabilities: Vulnerabil
         remediationText = remediationText.replace(/^#{1,4}\s+/gm, '');
         
         // Clean up other markdown formatting
-        remediationText = remediationText
-          // Bold text (** or __)
-          .replace(/\*\*([^*]+)\*\*/g, '$1')
-          .replace(/__([^_]+)__/g, '$1')
-          // Italic text (* or _)
-          .replace(/\*([^*]+)\*/g, '$1')
-          .replace(/_([^_]+)_/g, '$1')
-          // Strikethrough text (~~)
-          .replace(/~~([^~]+)~~/g, '$1')
-          // Inline code (`)
-          .replace(/`([^`]+)`/g, '$1')
-          // Bullet points
-          .replace(/^\s*[\*\-\+]\s+/gm, '• ')
-          // Numbered lists (keep numbers but standardize format)
-          .replace(/^\s*\d+\.\s+/gm, (match) => match);
+        remediationText = remediationText.replace(/^#{1,4}\s+/gm, '');
         
         // Check if the remediation text contains structured sections
         if (remediationText.includes('1. Importance of Fixing') || remediationText.includes('Importance of Fixing')) {
@@ -416,22 +415,35 @@ export const generatePDFReport = (scan: ScanDetails, vulnerabilities: Vulnerabil
         } else {
           // For simple unstructured remediation text
           // Clean up any markdown formatting from unstructured text
-          remediationText = remediationText.replace(/^###\s+/gm, '');
-          remediationText = remediationText.replace(/^####\s+/gm, '');
-          remediationText = remediationText.replace(/^#\s+/gm, '');
+          remediationText = remediationText.replace(/^###\s+/gm, function(match) {
+            // Keep the header but with proper styling
+            return '§§§SUBHEADER§§§';
+          });
+          remediationText = remediationText.replace(/^####\s+/gm, function(match) {
+            // Keep the header but with proper styling
+            return '§§§MINORHEADER§§§';
+          });
+          remediationText = remediationText.replace(/^##\s+/gm, function(match) {
+            // Keep the header but with proper styling
+            return '§§§HEADER§§§';
+          });
+          remediationText = remediationText.replace(/^#\s+/gm, function(match) {
+            // Keep the header but with proper styling
+            return '§§§MAJORHEADER§§§';
+          });
           
           // Clean up other markdown formatting for unstructured text
           remediationText = remediationText
-            // Bold text (** or __)
-            .replace(/\*\*([^*]+)\*\*/g, '$1')
-            .replace(/__([^_]+)__/g, '$1')
-            // Italic text (* or _)
-            .replace(/\*([^*]+)\*/g, '$1')
-            .replace(/_([^_]+)_/g, '$1')
+            // Bold text (** or __) - preserve with special markers
+            .replace(/\*\*([^*]+)\*\*/g, '§§§BOLD§§§$1§§§ENDBOLD§§§')
+            .replace(/__([^_]+)__/g, '§§§BOLD§§§$1§§§ENDBOLD§§§')
+            // Italic text (* or _) - preserve with special markers
+            .replace(/\*([^*]+)\*/g, '§§§ITALIC§§§$1§§§ENDITALIC§§§')
+            .replace(/_([^_]+)_/g, '§§§ITALIC§§§$1§§§ENDITALIC§§§')
             // Strikethrough text (~~)
             .replace(/~~([^~]+)~~/g, '$1')
             // Inline code (`)
-            .replace(/`([^`]+)`/g, '$1')
+            .replace(/`([^`]+)`/g, '§§§CODE§§§$1§§§ENDCODE§§§')
             // Bullet points
             .replace(/^\s*[\*\-\+]\s+/gm, '• ')
             // Numbered lists (keep numbers but standardize format)
@@ -529,40 +541,143 @@ export const generatePDFReport = (scan: ScanDetails, vulnerabilities: Vulnerabil
             const splitRemediation = doc.splitTextToSize(remediationText, pageWidth - 28);
             const remediationHeight = splitRemediation.length * 7;
             
-            // Check if remediation text will fit on current page
-            if (currentYPosition + remediationHeight > pageHeight - 20) {
-              // Calculate how many lines will fit on current page
-              const availableHeight = pageHeight - 20 - currentYPosition;
-              const linesPerPage = Math.floor(availableHeight / 7);
+            // Process the special formatting markers
+            interface TextSegment {
+              text: string;
+              style: string;
+            }
+            
+            interface FormattedLine {
+              text?: string;
+              y: number;
+              fontSize?: number;
+              style?: string;
+              segments?: TextSegment[];
+            }
+            
+            const processFormattedText = (text: string) => {
+              // Process each line to handle formatting markers
+              const lines: FormattedLine[] = [];
+              let currentY = currentYPosition;
               
-              if (linesPerPage > 0) {
-                // Add as many lines as will fit on current page
-                const firstPageLines = splitRemediation.slice(0, linesPerPage);
-                doc.text(firstPageLines, 14, currentYPosition);
+              // Split text into lines
+              const textLines = text.split('\n');
+              
+              for (let line of textLines) {
+                // Check for header markers
+                if (line.startsWith('§§§MAJORHEADER§§§')) {
+                  doc.setFont('helvetica', 'bold');
+                  doc.setFontSize(16);
+                  const headerText = line.replace('§§§MAJORHEADER§§§', '');
+                  lines.push({ text: headerText, y: currentY, fontSize: 16, style: 'bold' });
+                  currentY += 10; // More space for major headers
+                } else if (line.startsWith('§§§HEADER§§§')) {
+                  doc.setFont('helvetica', 'bold');
+                  doc.setFontSize(14);
+                  const headerText = line.replace('§§§HEADER§§§', '');
+                  lines.push({ text: headerText, y: currentY, fontSize: 14, style: 'bold' });
+                  currentY += 9; // More space for headers
+                } else if (line.startsWith('§§§SUBHEADER§§§')) {
+                  doc.setFont('helvetica', 'bold');
+                  doc.setFontSize(13);
+                  const headerText = line.replace('§§§SUBHEADER§§§', '');
+                  lines.push({ text: headerText, y: currentY, fontSize: 13, style: 'bold' });
+                  currentY += 8; // More space for subheaders
+                } else if (line.startsWith('§§§MINORHEADER§§§')) {
+                  doc.setFont('helvetica', 'bold');
+                  doc.setFontSize(12);
+                  const headerText = line.replace('§§§MINORHEADER§§§', '');
+                  lines.push({ text: headerText, y: currentY, fontSize: 12, style: 'bold' });
+                  currentY += 7; // Standard space for minor headers
+                } else {
+                  // Process inline formatting (bold, italic, code)
+                  let processedLine = line;
+                  let formattedSegments = [];
+                  
+                  // Process bold text
+                  while (processedLine.includes('§§§BOLD§§§') && processedLine.includes('§§§ENDBOLD§§§')) {
+                    const startIdx = processedLine.indexOf('§§§BOLD§§§');
+                    const endIdx = processedLine.indexOf('§§§ENDBOLD§§§');
+                    
+                    // Add text before the bold section
+                    if (startIdx > 0) {
+                      formattedSegments.push({
+                        text: processedLine.substring(0, startIdx),
+                        style: 'normal'
+                      });
+                    }
+                    
+                    // Add the bold text
+                    formattedSegments.push({
+                      text: processedLine.substring(startIdx + 11, endIdx),
+                      style: 'bold'
+                    });
+                    
+                    // Update the processed line
+                    processedLine = processedLine.substring(endIdx + 14);
+                  }
+                  
+                  // Add any remaining text
+                  if (processedLine) {
+                    formattedSegments.push({
+                      text: processedLine,
+                      style: 'normal'
+                    });
+                  }
+                  
+                  // Add the line with its formatted segments
+                  lines.push({ segments: formattedSegments, y: currentY });
+                  currentY += 7; // Standard line height
+                }
               }
               
-              // Add a new page for remaining content
+              return { lines, totalHeight: currentY - currentYPosition };
+            };
+            
+            // Check if remediation text will fit on current page
+            if (currentYPosition + remediationHeight > pageHeight - 20) {
+              // Add a new page
               doc.addPage();
               // Add page number
               const pageNumber = doc.getNumberOfPages();
               doc.setFontSize(10);
               doc.text(`Page ${pageNumber}`, pageWidth - 20, pageHeight - 10);
               doc.setFontSize(12);
-              
-              // Continue with remaining content on new page
-              const remainingLines = splitRemediation.slice(linesPerPage > 0 ? linesPerPage : 0);
-              if (remainingLines.length > 0) {
-                currentYPosition = 20; // Reset position to top of new page
-                doc.text(remainingLines, 14, currentYPosition);
-                currentYPosition += remainingLines.length * 7;
-              } else {
-                currentYPosition = 20; // Reset position to top of new page
-              }
-            } else {
-              // Content fits on current page
-              doc.text(splitRemediation, 14, currentYPosition);
-              currentYPosition += remediationHeight;
+              currentYPosition = 20; // Reset position to top of new page
             }
+            
+            // Process and render the formatted text
+            const { lines } = processFormattedText(remediationText);
+            
+            // Render each line with its formatting
+            for (const line of lines) {
+              if (line.segments) {
+                // Line with mixed formatting
+                let xOffset = 14;
+                for (const segment of line.segments) {
+                  doc.setFont('helvetica', segment.style);
+                  const segmentWidth = doc.getStringUnitWidth(segment.text) * doc.internal.getFontSize() / doc.internal.scaleFactor;
+                  doc.text(segment.text, xOffset, line.y);
+                  xOffset += segmentWidth;
+                }
+                // Reset font
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(12);
+              } else {
+                // Line with consistent formatting
+                doc.setFont('helvetica', line.style || 'normal');
+                doc.setFontSize(line.fontSize || 12);
+                if (line.text) {
+                  doc.text(line.text, 14, line.y);
+                }
+                // Reset font
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(12);
+              }
+            }
+            
+            // Update current position
+            currentYPosition = lines.length > 0 ? lines[lines.length - 1].y + 10 : currentYPosition + remediationHeight;
           }
         }
       }

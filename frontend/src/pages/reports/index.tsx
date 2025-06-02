@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
-import { FaExternalLinkAlt, FaDownload, FaFilter, FaSort, FaSearch, FaInfo, FaShieldAlt, FaExclamationTriangle, FaExclamationCircle, FaInfoCircle, FaCheckCircle } from 'react-icons/fa';
+import { FaExternalLinkAlt, FaDownload, FaFilter, FaSort, FaSearch, FaInfo, FaShieldAlt, FaExclamationTriangle, FaExclamationCircle, FaInfoCircle, FaCheckCircle, FaSpinner } from 'react-icons/fa';
 import api from '@/utils/api';
 
 interface Report {
@@ -452,6 +452,11 @@ const ReportsPage: React.FC = () => {
                               </span>
                             )}
                           </div>
+                        </div>
+                      ) : report.status === 'in_progress' ? (
+                        <div className="flex items-center text-primary-600">
+                          <FaSpinner className="animate-spin mr-2" />
+                          <span>Collecting vulnerabilities...</span>
                         </div>
                       ) : (
                         <span className="text-gray-400 flex items-center">
