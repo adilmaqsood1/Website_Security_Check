@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
+
 // Create an axios instance with custom configuration
 const api = axios.create({
   baseURL: 'https://websitesecuritycheck-production.up.railway.app/api',
