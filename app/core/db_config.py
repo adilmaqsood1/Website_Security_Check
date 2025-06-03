@@ -1,16 +1,11 @@
 from typing import Optional
-import os
 from pydantic_settings import BaseSettings
-from dotenv import load_dotenv
-
-# Load environment variables from .env file
-load_dotenv()
 
 class DatabaseConfig(BaseSettings):
     """Database configuration settings"""
-    # Main connection URL - Railway will provide DATABASE_URL environment variable
-    DATABASE_URL: Optional[str] = None
-    DATABASE_URL_UNPOOLED: Optional[str] = None
+    # Static database configuration
+    DATABASE_URL: str = "postgresql://postgres:postgres@localhost:5432/security_scanner"
+    DATABASE_URL_UNPOOLED: str = "postgresql://postgres:postgres@localhost:5432/security_scanner"
     
     # Connection pool settings
     POOL_SIZE: int = 5
@@ -18,11 +13,11 @@ class DatabaseConfig(BaseSettings):
     POOL_RECYCLE: int = 3600  # 1 hour
     
     # PostgreSQL connection parameters
-    PGHOST: Optional[str] = None
-    PGHOST_UNPOOLED: Optional[str] = None
-    PGUSER: Optional[str] = None
-    PGDATABASE: Optional[str] = None
-    PGPASSWORD: Optional[str] = None
+    PGHOST: str = "localhost"
+    PGHOST_UNPOOLED: str = "localhost"
+    PGUSER: str = "postgres"
+    PGDATABASE: str = "security_scanner"
+    PGPASSWORD: str = "postgres"
     
     # Vercel Postgres parameters - these are causing validation errors, so we'll make them optional
     POSTGRES_URL: Optional[str] = None
